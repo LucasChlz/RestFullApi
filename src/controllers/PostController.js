@@ -27,4 +27,17 @@ router.post('/store', upload.single('file'), async (req, res) => {
 
 });
 
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const post = await PostModel.findOne({ _id: id}, (err, docs) => {
+        if (err) {
+            return res.status(204).json();
+        } else {
+            return res.json({ docs });
+        }
+    });
+});
+
+
 module.exports = app => app.use('/posts', router);
