@@ -6,7 +6,9 @@ const upload = require('../middleware/FileAuth');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    
+    const posts = await PostModel.find({});
+
+    return res.json({ posts });
 });
 
 router.post('/store', upload.single('file'), async (req, res) => {
@@ -14,7 +16,7 @@ router.post('/store', upload.single('file'), async (req, res) => {
 
     const { originalname, filename} = req.file;
 
-    PostModel.create({
+    await PostModel.create({
         title: title,
         fileName: originalname,
         fileUniq: filename,
